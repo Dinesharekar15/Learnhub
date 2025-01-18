@@ -1,4 +1,6 @@
 const {db}=require("../Database/Connection")
+const jwt=require('jsonwebtoken')
+const {secret}=require('../config')
 const signUpAdmin=async(req,res)=>{
 
     const {name,email,password}=req.body;
@@ -12,7 +14,11 @@ const signUpAdmin=async(req,res)=>{
        
         
         console.log(admin)
-        res.status(200).json({msg:"admin created "})
+        const token=jwt.sign({
+            email
+        },secret)
+
+        res.status(200).json({msg:"admin created ",token:token})
     } catch (error) {
         console.log(error)
         res.status(400).json({msg:"Internal server"})
@@ -34,8 +40,8 @@ const signInAdmin=async(req,res)=>{
         }
         // console.log(rows[0])
         const admin=rows[0];
-        
-        res.status(200).json({admin})
+        const token=jwt.sign({email},secret)
+        res.status(200).json({admin,token:token})
 
     } catch (error) {
         console.log(error)
@@ -43,14 +49,20 @@ const signInAdmin=async(req,res)=>{
     }
 }
 const createCourse=async(req,res)=>{
-    const {title,description,price,imgurl,creator_id}=req.body
-    if (!title || !description || !price || !imgurl || !creator_id) {
+    const {title,description,price,imgurl}=req.body
+    const email=req.email;
+    if (!title || !description || !price || !imgurl ) {
         return res.status(400).json({ msg: "Please fill all the fields" });
     }
 
     try {
+        const findQuery=`SELECT id FROM admins WHERE email=$1`
+        const username=[email]
+        const result=await db.query(findQuery,username)
+        const id=result.rows[0].id;
+        console.log(id)
         const insertQuery="INSERT INTO courses(title,description,price,imgurl,creator_id) VALUES($1,$2,$3,$4,$5) RETURNING*"
-        const values=[title,description,price,imgurl,creator_id]
+        const values=[title,description,price,imgurl,id]
         const { rows } = await db.query(insertQuery, values);
                 console.log(rows)
         // Respond with success

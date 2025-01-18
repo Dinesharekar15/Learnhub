@@ -18,7 +18,33 @@ const allCourses=async(req,res)=>{
 }
 
 const purchesCourse=async(req,res)=>{
-    res.json({msg:"coursePurchesed"})
+    const email=req.email;
+    console.log(email)
+    const courseId=req.params.courseId
+    console.log(courseId)
+    try {
+        const findQuery="SELECT*FROM courses WHERE id=$1 "
+        const values=[courseId];
+        const updateQuery="UPDATE users SET courseIds = array_append(courseIds, $1) WHERE email=$2 RETURNING*"
+        const data=[courseId,email]
+        await db.query(updateQuery,data)
+        const {rows}=await db.query(findQuery,values)
+        
+        if(rows.length==0){
+            res.status(404).json({msg:"Course not found"})
+        }else{
+        const course=rows[0];
+        
+        res.status(200).json({
+            msg:"Couse Purchesed ",
+            course:course
+        })
+      }
+    } catch (error) {
+        console.log(error)
+        res.status(404).json({msg:"Internal server error"})
+    }
+    
 }
 
 module.exports={allCourses,purchesCourse}

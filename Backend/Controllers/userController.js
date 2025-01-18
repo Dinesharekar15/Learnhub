@@ -1,6 +1,7 @@
 
 const { db } = require("../Database/Connection");
-
+const jwt=require("jsonwebtoken")
+const {secret}=require("../config")
 const signUpUser=async (req,res)=>{
     const {name,email,password}=req.body;
     if(!name|| !email || !password){
@@ -8,14 +9,19 @@ const signUpUser=async (req,res)=>{
     }
     try {
         
-        const insertQuery="INSERT INTO users(name,email,password) VALUES($1,$2,$3)"
+        const insertQuery="INSERT INTO users(name,email,password) VALUES($1,$2,$3) RETURNING*"
         const values=[name,email,password]
         const {rows}=await db.query(insertQuery,values)
+        console.log(rows)
         const user=rows[0]
-        console.log("Insertion success",user)
+        
+        const token=jwt.sign({
+            email
+        },secret)
         res.status(200).json({
             msg:"userSignUp",
-            user:user.rows
+            user:user.rows,
+            token:token
         })
     } catch (error) {
         // console.log(error)
@@ -23,7 +29,7 @@ const signUpUser=async (req,res)=>{
     }
     
 }
-const SignInUser=async (req,res)=>{
+const signInUser=async (req,res)=>{
     const {email,password}=req.body;
 
     try {
@@ -34,9 +40,12 @@ const SignInUser=async (req,res)=>{
         res.statsu(400).json({msg:"Incorrect Password or username"})
     }
     const user=rows[0];
-    
+    const token=jwt.sign({
+        email
+    },secret)
     res.json({
-        user
+        user:user,
+        token:token
     })
     } catch (error) {
         console.log(error)
@@ -50,4 +59,4 @@ const myCourse=async(req,res)=>{
     res.json({msg:"my all courses"})
 }
 
-module.exports={signUpUser,SignInUser,myCourse}
+module.exports={signUpUser,signInUser,myCourse}
