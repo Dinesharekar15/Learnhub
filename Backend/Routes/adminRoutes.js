@@ -7,6 +7,6 @@ router.post("/signup",signUpAdmin)
 router.post("/signin",signInAdmin)
 router.post("/creatcourse",adminAuth,createCourse)
 router.post("/addcontent",adminAuth,addCourseContent)
-router.delete("/course/:id",adminAuth,deleteCourse)
+router.delete("/course/delete/:id",adminAuth,deleteCourse)
 
 module.exports={adminRoute:router};
