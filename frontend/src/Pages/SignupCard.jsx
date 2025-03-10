@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import {z} from "zod"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"; 
-import { backend_url } from "config.js";
+// import { backend_url } from "config.js";
 
 
 
@@ -33,9 +33,10 @@ export default function SignupCard() {
         signupSchema.parse(form)
         setErrors({});
         response =await axios.post(`http://localhost:3000/api/user/signup`,form)
+        console.log(response.data.token)
         localStorage.setItem("token",response.data.token)
         // console.log("Signup successful:", response.data);
-        navigate("/home"); 
+        navigate("/"); 
 
       } catch (error) {
         if (error instanceof z.ZodError) {

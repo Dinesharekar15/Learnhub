@@ -4,7 +4,7 @@ import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { backend_url } from "config.js";
+// import { backend_url } from "config.js";
 
 
 const SigninCard = () => {
@@ -25,7 +25,7 @@ const SigninCard = () => {
             const response = await axios.post(`http://localhost:3000/api/user/signup`, form);
             localStorage.setItem("token", response.data.token);
             console.log("Signin successful:", response.data);
-            navigate("/home"); // Redirect to home page
+            navigate("/"); // Redirect to home page
         } catch (error) {
             console.error("Signin error:", error.response); // Log error for debugging
             
