@@ -1,6 +1,7 @@
 const {db}=require("../Database/Connection")
 const jwt=require('jsonwebtoken')
-const {secret}=require('../config')
+const {secret}=require('../config');
+const { uploadOnCloudinary } = require("../utils/cloudinary");
 const signUpAdmin=async(req,res)=>{
 
     const {name,email,password}=req.body;
@@ -55,11 +56,35 @@ const signInAdmin=async(req,res)=>{
     }
 }
 const createCourse=async(req,res)=>{
-    const {title,description,price,imgurl}=req.body
+    const {title,description,price}=req.body
     const email=req.email;
-    if (!title || !description || !price || !imgurl ) {
+    if (!title || !description || !price  ) {
         return res.status(400).json({ msg: "Please fill all the fields" });
     }
+    // Validate price is a number
+    if (isNaN(price)) {
+        return res.status(400).json({ msg: "Price must be a valid number" });
+    }
+    // check the proper image provided or not 
+    if (!req.file?.mimetype.startsWith('image/')) {
+        return res.status(400).json({
+            msg: "Please upload image and not the other files"
+        })
+    }
+    const thumbnailImgBuffer = req.file.buffer;
+    const fileName = `${Date.now()}-${req.file.originalname}`; 
+    // upload to coudinary
+    
+    
+
+    
+    const thumbnailImg = await uploadOnCloudinary(thumbnailImgBuffer, fileName);
+        if (!thumbnailImg) {
+            return res.status(500).json({
+                msg: "Failed to upload cover image to Cloudinary"
+            });
+        }
+
 
     try {
         const findQuery=`SELECT id FROM admins WHERE email=$1`
@@ -68,7 +93,8 @@ const createCourse=async(req,res)=>{
 
 
         const insertQuery="INSERT INTO courses(title,description,price,imgurl,creator_id) VALUES($1,$2,$3,$4,$5) RETURNING*"
-        const { rows } = await db.query(insertQuery, [title,description,price,imgurl,id]);
+        const { rows } = await db.query(insertQuery, [title,description,price,thumbnailImg
+            .secure_url,id]);
         const courseId=rows[0].id
 
         const updateQuery="UPDATE admins SET courseIds = array_append(courseIds, $1) WHERE email=$2 RETURNING* "

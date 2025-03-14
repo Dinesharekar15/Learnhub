@@ -6,13 +6,13 @@ import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar"
 import { NavLink } from 'react-router-dom'
 const Header = () => {
   return (
-    <header className='w-full top-0 left-0 flex items-center justify-between p-4 border-b shadow-sm bg-white'>
+    <header className='w-full top-0 left-0 flex items-center justify-between p-2 px-8 border-b shadow-sm bg-white'>
         <div className='flex items-center gap-4'>
-          <Avatar>
-            <AvatarImage src="" alt="avatar" />
-            <AvatarFallback>U</AvatarFallback>
-          </Avatar>
-        </div>
+  <Avatar className="w-12 h-12"> {/* Increase width and height */}
+    <AvatarImage src="/public/4k.jpg" alt="avatar" />
+    <AvatarFallback>U</AvatarFallback>
+  </Avatar>
+</div>
         <div className='relative w-1/3'>
           <Input 
             type="text"
@@ -25,7 +25,7 @@ const Header = () => {
           <NavLink
           to={"/signup"}
           >
-          <Button variant="default" className="rounded-full bg-blue-500">
+          <Button variant="default" className="rounded-full bg-blue-500 ">
             Signup
           </Button>
           </NavLink>
@@ -33,7 +33,7 @@ const Header = () => {
           to={"/signin"}
           >
 
-          <Button variant="default" className="rounded-full bg-blue-500">
+          <Button variant="default" className="rounded-full bg-blue-500 ">
             Login
           </Button>
           </NavLink>

@@ -4,7 +4,7 @@ const Coursecard = ({  name, description, price }) => {
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden w-72">
       {/* Course Image */}
-      <img src="../Images/4k.jpg" alt={name} className="w-full h-40 object-cover" />
+      <img src="/public/4k.jpg" alt={name} className="w-full h-40 object-cover" />
       
       {/* Course Details */}
       <div className="p-4 text-center">

@@ -7,7 +7,7 @@ import './App.css'
 import SignupCard from './Pages/SignupCard'
 import SigninCard from './Pages/SigninCard';
 import Dashboard from './Pages/Dashboard';
-// import {PublicRoute} from './AuthRoutes/isLogin'
+import {PublicRoute} from './AuthRoutes/isLogin'
 // import {Protected} from './AuthRoutes/Protected'
 import Home from "./Pages/Home";
 function App() {
@@ -18,8 +18,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Home/>}/>
       <Route path="/Courses" element={<Dashboard />} />
-      <Route path="/signup" element={<SignupCard />} />
-      <Route path="/signin" element={<SigninCard />} />
+      <Route path="/signup" element={<PublicRoute><SignupCard /></PublicRoute>} />
+      <Route path="/signin" element={<PublicRoute><SigninCard></SigninCard></PublicRoute>} />
     </Routes>
   </BrowserRouter>
   )

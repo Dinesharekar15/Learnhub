@@ -5,9 +5,9 @@ const isAuthenticated = () => {
     return !!localStorage.getItem("token");
 };
 
-export const PublicRoute=({Children})=>{
+export const PublicRoute=({children})=>{
     if(isAuthenticated()){
-        return <Navigate to="/home" />;
+        return <Navigate to="/" />;
     }
-    return Children;
+    return children;
 }

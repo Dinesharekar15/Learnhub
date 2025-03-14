@@ -12,6 +12,13 @@ app.use(cors())
 app.use("/api/user",userRoute)
 app.use("/api/admin",adminRoute)
 app.use("/api/courses",courseRouter)
+app.post("/upload",async(req,res)=>{
+    try {
+        
+    } catch (error) {
+        
+    }
+})
 
 app.listen(3000,()=>{
     console.log("server is running on port")
