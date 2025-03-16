@@ -34,7 +34,8 @@ export default function SignupCard() {
         setErrors({});
         response =await axios.post(`http://localhost:3000/api/user/signup`,form)
         console.log(response.data.token)
-        localStorage.setItem("token",response.data.token)
+        const token=localStorage.setItem("token",response.data.token)
+        console.log(token)
         // console.log("Signup successful:", response.data);
         navigate("/"); 
 

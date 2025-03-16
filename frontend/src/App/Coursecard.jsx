@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
-const Coursecard = ({  name, description, price }) => {
+const Coursecard = ({  name, description, price,imagurl }) => {
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden w-72">
+    <div className="bg-white shadow-lg rounded-2xl overflow-hidden w-72">
       {/* Course Image */}
-      <img src="/public/4k.jpg" alt={name} className="w-full h-40 object-cover" />
+      <img src={imagurl} alt={name} className="w-full h-40 object-cover" />
       
       {/* Course Details */}
       <div className="p-4 text-center">

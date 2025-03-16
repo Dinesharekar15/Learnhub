@@ -3,7 +3,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar"
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between bg-blue-100 rounded-lg h-52 p-8">
+    <footer className="flex justify-between bg-blue-100 rounded-2xl h-52 p-8">
       <div className='flex items-center gap-4'>
                 <Avatar >
                   <AvatarImage src="../Images/4k.jpg" alt="avatar" />

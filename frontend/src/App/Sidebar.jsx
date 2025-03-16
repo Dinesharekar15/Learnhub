@@ -3,7 +3,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 
-const isAuthenticated = true;
+const isAuthenticated = localStorage.getItem("token");
+// console.log("token",isAuthenticated)
 const Sidebar = () => {
   return (
     <div className="bg-blue-100 w-64 h-screen fixed top-16 left-0 flex flex-col shadow-md">
@@ -72,7 +73,8 @@ const Sidebar = () => {
               <li>
                 <button 
                   onClick={() => {
-                    console.log("Logout function here"); // Replace with actual logout logic
+                    console.log("Logout function here");
+                    localStorage.removeItem("token") // Replace with actual logout logic
                   }}
                   className="flex items-center gap-2 p-2 w-full text-left rounded-lg text-gray-700 hover:bg-blue-300"
                 >
